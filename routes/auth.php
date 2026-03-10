@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\MigrationController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\LandingPageController;
 use Illuminate\Support\Facades\App;
 
 Route::get('/lang/{locale}', function (string $locale) {
@@ -17,9 +18,7 @@ Route::get('/lang/{locale}', function (string $locale) {
     return redirect()->back();
 })->name('lang.switch');
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [LandingPageController::class, 'show'])->name('landing');
 
 Route::get('/pages-term-conditions', function () {
     return view('pages-term-conditions');

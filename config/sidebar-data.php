@@ -44,6 +44,13 @@ return [
                 'data_key' => 'settings',
                 'permission' => 'view-settings'
             ],
+            [
+                'title' => 'Landing Page',
+                'icon' => 'bi bi-window',
+                'href' => 'landing-page/settings',
+                'data_key' => 'landing-page',
+                'permission' => 'view-settings'
+            ],
         ]
     ],
     [

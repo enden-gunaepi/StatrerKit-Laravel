@@ -9,6 +9,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\LogController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\LandingPageController;
 
 
 
@@ -54,6 +55,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('settings', [SettingController::class, 'index'])->name('settings.index');
     Route::post('settings', [SettingController::class, 'update'])->name('settings.update');
     Route::post('/settings/upload-logo/{key}', [SettingController::class, 'uploadLogo'])->name('settings.upload-logo');
+
+    // Landing Page Builder
+    Route::get('landing-page/settings', [LandingPageController::class, 'settings'])->name('landing-page.settings');
+    Route::post('landing-page/settings', [LandingPageController::class, 'update'])->name('landing-page.settings.update');
 });
 
 

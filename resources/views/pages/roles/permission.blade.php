@@ -1,214 +1,141 @@
 @extends('layouts.master')
+
 @section('title', 'Permissions')
+
 @section('content')
-    <div class="row justify-content-center">
-        <div class="col-md-12">
-            <h2 class="mb-4">Role: {{ $role->name }}</h2>
+    @php
+        $permissionsList = [
+            'user' => [
+                'view-user' => 'Lihat user',
+                'add-user' => 'Tambah user',
+                'edit-user' => 'Edit user',
+                'del-user' => 'Hapus user',
+                'role-by-user' => 'Batasi user by role',
+            ],
+            'role' => [
+                'view-role' => 'Lihat role',
+                'add-role' => 'Tambah role',
+                'edit-role' => 'Edit role',
+                'del-role' => 'Hapus role',
+                'update-permissions' => 'Update permissions',
+            ],
+            'log' => [
+                'view-log' => 'Lihat log',
+                'log-by-user' => 'Batasi log by user',
+            ],
+            'settings' => [
+                'view-settings' => 'Lihat settings',
+            ],
+        ];
+    @endphp
 
-            <form action="{{ route('roles.update_permissions', $role->id) }}" method="POST" id="permissionsForm">
-                @csrf
-                @method('PUT')
-
-                <div class="row">
-                    <!-- Menu User -->
-                    <div class="col-md-12">
-                        <ul class="list-group">
-                            @php
-                                $permissionsList = [
-                                    'user' => [
-                                        'view-user' => [
-                                            'label' => 'Lihat User',
-                                            'description' => 'Memberikan hak untuk melihat data pengguna.',
-                                        ],
-                                        'add-user' => [
-                                            'label' => 'Tambah User',
-                                            'description' => 'Memberikan hak untuk menambahkan pengguna baru.',
-                                        ],
-                                        'edit-user' => [
-                                            'label' => 'Edit User',
-                                            'description' => 'Memberikan hak untuk mengedit data pengguna.',
-                                        ],
-                                        'del-user' => [
-                                            'label' => 'Hapus User',
-                                            'description' => 'Memberikan hak untuk menghapus pengguna.',
-                                        ],
-                                        'role-by-user' => [
-                                            'label' => 'Role by user',
-                                            'description' =>
-                                                'Memberikan hak untuk melihat user berdasarkan role sesuai user.',
-                                        ],
-                                    ],
-                                    'role' => [
-                                        'view-role' => [
-                                            'label' => 'Lihat role',
-                                            'description' => 'Memberikan hak untuk melihat data role.',
-                                        ],
-                                        'add-role' => [
-                                            'label' => 'Tambah role',
-                                            'description' => 'Memberikan hak untuk menambahkan role baru.',
-                                        ],
-                                        'edit-role' => [
-                                            'label' => 'Edit role',
-                                            'description' => 'Memberikan hak untuk mengedit data role.',
-                                        ],
-                                        'del-role' => [
-                                            'label' => 'Hapus role',
-                                            'description' => 'Memberikan hak untuk menghapus role.',
-                                        ],
-                                        'update-permissions' => [
-                                            'label' => 'Update permissions',
-                                            'description' => 'Memberikan hak untuk memperbarui hak akses role.',
-                                        ],
-                                    ],
-                                    'log' => [
-                                        'view-log' => [
-                                            'label' => 'Lihat log',
-                                            'description' => 'Memberikan hak untuk melihat data log.',
-                                        ],
-                                        'log-by-user' => [
-                                            'label' => 'Log by user',
-                                            'description' =>
-                                                'Memberikan hak untuk melihat log berdasarkan yang user buat.',
-                                        ],
-                                    ],
-                                ];
-                            @endphp
-
-                            @foreach ($permissionsList as $category => $permissions)
-                                <div class="mb-4">
-                                    <div class="card">
-                                        <div class="card-header">
-                                            <h5 class="text-primary text-uppercase">{{ ucfirst($category) }}</h5>
-                                        </div>
-                                        <div class="card-body">
-                                            <!-- Centang Semua -->
-                                            <div class="form-check mb-3">
-                                                <input class="form-check-input" type="checkbox"
-                                                    id="checkAll{{ $category }}"
-                                                    onclick="toggleAllCheckboxes('{{ $category }}')" />
-                                                <label class="form-check-label" for="checkAll{{ $category }}">Centang /
-                                                    Uncheck
-                                                    Semua</label>
-                                            </div>
-
-                                            <div class="row">
-                                                @foreach ($permissions as $key => $permission)
-                                                    <div class="col-md-4 col-sm-6 mb-3">
-                                                        <div class="form-check">
-                                                            <input class="form-check-input permission-checkbox"
-                                                                type="checkbox" name="permissions[]"
-                                                                value="{{ $key }}"
-                                                                {{ $role->permissions->contains('name', $key) ? 'checked' : '' }}
-                                                                data-category="{{ $category }}"
-                                                                id="permission-{{ $key }}"
-                                                                onchange="updatePermissions()">
-
-                                                            <label class="form-check-label"
-                                                                for="permission-{{ $key }}">
-                                                                {{ $permission['label'] }}
-                                                                <span data-toggle="tooltip"
-                                                                    title="{{ $permission['description'] }}"
-                                                                    class="text-info ms-2">
-                                                                    <i class="fas fa-info-circle"></i>
-                                                                </span>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                @endforeach
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </ul>
-
-                    </div>
-                </div>
-
-                <!-- Tombol Submit -->
-                <div class="row mt-4">
-                    <div class="col-md-12 text-center">
-                        <button type="submit" class="btn btn-primary btn-lg" style="display:none;">Simpan
-                            Perubahan</button>
-                    </div>
-                </div>
-            </form>
+    <section class="glass-card p-5">
+        <div class="flex items-start justify-between gap-3">
+            <div>
+                <h2 class="text-lg font-semibold text-slate-900">Permissions for {{ ucfirst($role->name) }}</h2>
+                <p class="text-sm text-slate-500">Centang hak akses yang dibutuhkan role ini.</p>
+            </div>
+            <a href="{{ route('roles.index') }}" class="mac-btn">Back</a>
         </div>
-    </div>
+
+        <div id="permissionStatus" class="mt-4 hidden rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm text-emerald-700"></div>
+
+        <form id="permissionsForm" class="mt-4 space-y-4" data-no-loader="true">
+            @csrf
+            @method('PUT')
+
+            @foreach ($permissionsList as $category => $permissions)
+                <article class="rounded-2xl border border-slate-200 bg-white p-4">
+                    <div class="mb-3 flex items-center justify-between">
+                        <h3 class="text-sm font-semibold uppercase tracking-wide text-slate-600">{{ $category }}</h3>
+                        <label class="inline-flex items-center gap-2 text-xs text-slate-500">
+                            <input type="checkbox" class="rounded border-slate-300" data-check-all="{{ $category }}">
+                            Toggle all
+                        </label>
+                    </div>
+
+                    <div class="grid gap-2 md:grid-cols-2">
+                        @foreach ($permissions as $key => $label)
+                            <label class="flex items-center gap-3 rounded-xl border border-slate-200 px-3 py-2 text-sm text-slate-700">
+                                <input
+                                    type="checkbox"
+                                    name="permissions[]"
+                                    value="{{ $key }}"
+                                    data-category="{{ $category }}"
+                                    class="rounded border-slate-300"
+                                    {{ $role->permissions->contains('name', $key) ? 'checked' : '' }}>
+                                <span>{{ $label }}</span>
+                            </label>
+                        @endforeach
+                    </div>
+                </article>
+            @endforeach
+        </form>
+    </section>
 @endsection
 
-@section('script')
-    <script src="{{ URL::asset('build/js/app.js') }}"></script>
-
+@push('scripts')
     <script>
-        // Fungsi untuk mencentang atau menghapus centang pada semua checkbox dalam kategori tertentu
-        function toggleAllCheckboxes(category) {
-            var checkboxes = document.querySelectorAll('.permission-checkbox[data-category="' + category + '"]');
-            var checkAll = document.getElementById('checkAll' + category);
-            checkboxes.forEach(function(checkbox) {
-                checkbox.checked = checkAll.checked;
-            });
+        const permissionForm = document.getElementById('permissionsForm');
+        const permissionStatus = document.getElementById('permissionStatus');
 
-            updatePermissions(); // Call update function when toggling all checkboxes
-            updateCheckAllStatus(category); // Check the status of "Centang Semua"
+        function setStatus(message, isError = false) {
+            permissionStatus.textContent = message;
+            permissionStatus.classList.remove('hidden', 'border-emerald-200', 'bg-emerald-50', 'text-emerald-700', 'border-rose-200', 'bg-rose-50', 'text-rose-700');
+            permissionStatus.classList.add(isError ? 'border-rose-200' : 'border-emerald-200');
+            permissionStatus.classList.add(isError ? 'bg-rose-50' : 'bg-emerald-50');
+            permissionStatus.classList.add(isError ? 'text-rose-700' : 'text-emerald-700');
         }
 
-        // Fungsi untuk memeriksa status dari checkbox "Centang Semua" dan memperbaruinya
-        function updateCheckAllStatus(category) {
-            var checkboxes = document.querySelectorAll('.permission-checkbox[data-category="' + category + '"]');
-            var checkAll = document.getElementById('checkAll' + category);
+        async function savePermissions() {
+            const checkedPermissions = Array.from(permissionForm.querySelectorAll('input[name="permissions[]"]:checked')).map((input) => input.value);
+            window.pageLoader.show();
 
-            // Jika semua checkbox dalam kategori ini sudah dicentang, centang "Centang Semua"
-            checkAll.checked = Array.from(checkboxes).every(function(checkbox) {
-                return checkbox.checked;
-            });
-        }
+            try {
+                const response = await fetch('{{ route('roles.update_permissions', $role->id) }}', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                        'Accept': 'application/json',
+                    },
+                    body: JSON.stringify({ permissions: checkedPermissions }),
+                });
 
-        // Fungsi untuk mengirim perubahan permissions via AJAX
-        function updatePermissions() {
-            var permissions = [];
-            document.querySelectorAll('.permission-checkbox:checked').forEach(function(checkbox) {
-                permissions.push(checkbox.value);
-            });
-
-            $.ajax({
-                url: '{{ route('roles.update_permissions', $role->id) }}',
-                type: 'PUT',
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    permissions: permissions
-                },
-                success: function(response) {
-                    // Menampilkan toast sukses
-                    toastr.success(response.message); // Menampilkan pesan sukses berdasarkan response
-
-                    // Menampilkan toast tambahan tentang permission yang ditambahkan
-                    if (response.added_permissions.length > 0) {
-                        toastr.info('Permissions yang ditambahkan: ' + response.added_permissions.join(', '));
-                    }
-
-                    // Menampilkan toast tambahan tentang permission yang dihapus
-                    if (response.removed_permissions.length > 0) {
-                        toastr.info('Permissions yang dihapus: ' + response.removed_permissions.join(', '));
-                    }
-                },
-                error: function(xhr, status, error) {
-                    // Menampilkan toast error jika ada masalah dalam request
-                    toastr.error('An error occurred while updating permissions');
+                const data = await response.json();
+                if (!response.ok || data.status !== 'success') {
+                    throw new Error(data.message || 'Gagal menyimpan permissions.');
                 }
-            });
+
+                const changes = [];
+                if (data.added_permissions?.length) {
+                    changes.push('Added: ' + data.added_permissions.join(', '));
+                }
+                if (data.removed_permissions?.length) {
+                    changes.push('Removed: ' + data.removed_permissions.join(', '));
+                }
+
+                setStatus(changes.length ? changes.join(' | ') : data.message);
+            } catch (error) {
+                setStatus(error.message, true);
+            } finally {
+                document.getElementById('page-loader')?.classList.add('opacity-0', 'pointer-events-none');
+            }
         }
 
-        // Fungsi untuk memeriksa status "Centang Semua" saat halaman pertama dimuat
-        $(document).ready(function() {
-            // Memeriksa status "Centang Semua" untuk setiap kategori saat halaman dimuat
-            var categories = ['user', 'role', 'log']; // Ganti dengan kategori yang sesuai
-            categories.forEach(function(category) {
-                updateCheckAllStatus(category);
-            });
+        permissionForm.querySelectorAll('input[name="permissions[]"]').forEach((checkbox) => {
+            checkbox.addEventListener('change', savePermissions);
+        });
 
-            // Aktifkan tooltip
-            $('[data-toggle="tooltip"]').tooltip(); // Menambahkan tooltip untuk elemen yang sesuai
+        document.querySelectorAll('[data-check-all]').forEach((toggle) => {
+            toggle.addEventListener('change', () => {
+                const category = toggle.dataset.checkAll;
+                permissionForm.querySelectorAll(`input[name="permissions[]"][data-category="${category}"]`).forEach((checkbox) => {
+                    checkbox.checked = toggle.checked;
+                });
+                savePermissions();
+            });
         });
     </script>
-@endsection
+@endpush

@@ -1,64 +1,50 @@
 <!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-layout="vertical" data-sidebar="dark"
-    data-sidebar-size="sm-hover" data-preloader="disable" card-layout="" data-bs-theme="light">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
-
-    <meta charset="utf-8" />
-    <title> @yield('title') | {{ config('app.name') }} - Admin & Dashboard Template </title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- CSRF Token -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta content="1112-Project Admin & Dashboard Template" name="description" />
-    <meta content="1112-Project" name="author" />
-    <!-- App favicon -->
 
     @php
-        $favicon = get_setting('favicon', 'default-favicon.ico');
+        $favicon = get_setting('favicon');
+        $appName = get_setting('app_name', config('app.name', 'Larakit12'));
+        $currentLocale = app()->getLocale();
     @endphp
-    <link rel="shortcut icon" href="{{ URL::asset('build/images/favicon.ico') }}">
-    {{-- <link rel="shortcut icon" href="{{ asset('storage/' . $favicon) }}" type="image/x-icon"> --}}
 
-    @include('layouts.head-css')
+    <title>@yield('title', 'Authentication') - {{ $appName }}</title>
+
+    @if ($favicon)
+        <link rel="shortcut icon" href="{{ asset('storage/' . $favicon) }}" type="image/x-icon">
+    @endif
+
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-@yield('body')
-
-@yield('content')
-
-<div id="toastContainer" class="toast-container position-fixed top-0 end-0 p-3">
-    @if (session('success'))
-        <div class="toast text-bg-success border-0 show" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="d-flex">
-                <div class="toast-body">
-                    <strong>Success:</strong> {{ session('success') }}
-                </div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
-                    aria-label="Close"></button>
-            </div>
+<body class="min-h-screen bg-[radial-gradient(circle_at_top,_#f8fafc,_#e2e8f0)]">
+    <div id="page-loader" class="pointer-events-none fixed inset-0 z-[100] flex items-center justify-center bg-white/70 opacity-0 backdrop-blur-sm transition-opacity duration-200">
+        <div class="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-5 py-3 shadow-sm">
+            <span class="h-4 w-4 animate-spin rounded-full border-2 border-slate-300 border-t-slate-800"></span>
+            <span class="text-sm font-medium text-slate-700">{{ __('ui.loading') }}</span>
         </div>
+    </div>
+
+    <div class="mx-auto flex w-full max-w-6xl justify-end gap-1 px-4 pt-4 md:px-8">
+        <a href="{{ route('lang.switch', 'en') }}" class="rounded-lg px-2 py-1 text-xs {{ $currentLocale === 'en' ? 'bg-black text-white' : 'bg-white text-slate-600 border border-slate-200' }}">EN</a>
+        <a href="{{ route('lang.switch', 'id') }}" class="rounded-lg px-2 py-1 text-xs {{ $currentLocale === 'id' ? 'bg-black text-white' : 'bg-white text-slate-600 border border-slate-200' }}">ID</a>
+    </div>
+
+    @if (session('success'))
+        <div class="mx-auto mt-4 max-w-3xl rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">{{ session('success') }}</div>
     @endif
 
     @if (session('error'))
-        <div class="toast text-bg-danger border-0 show" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="d-flex">
-                <div class="toast-body">
-                    <strong>Error:</strong> {{ session('error') }}
-                </div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
-                    aria-label="Close"></button>
-            </div>
-        </div>
+        <div class="mx-auto mt-4 max-w-3xl rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">{{ session('error') }}</div>
     @endif
-</div>
 
-@include('layouts.vendor-scripts')
-<script>
-    $(document).ready(function() {
-        // Menampilkan toast secara otomatis jika ada session
-        $('.toast').toast('show');
-    });
-</script>
+    @yield('content')
+
+    @stack('scripts')
 </body>
 
 </html>

@@ -1,57 +1,40 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+@extends('layouts.master-without-nav')
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+@section('title', 'Welcome')
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
-
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-</head>
-
-<body>
-    <div class="container">
-        <!-- Right Side Of Navbar -->
-        <ul class="navbar-nav ms-auto">
-            Home Page
-            <!-- Authentication Links -->
-            @guest
-                @if (Route::has('login'))
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                    </li>
-                @endif
-
-                @if (Route::has('register'))
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                    </li>
-                @endif
-            @else
-                <li class="nav-item dropdown">
-                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                        {{ Auth::user()->name }}
-                    </a>
-
-                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{{ route('logout') }}"
-                            onclick="event.preventDefault();
-                                         document.getElementById('logout-form').submit();">
-                            {{ __('Logout') }}
-                        </a>
-
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+@section('content')
+    <main class="mx-auto flex min-h-screen max-w-6xl items-center px-4 py-12 md:px-8">
+        <section class="grid w-full gap-6 md:grid-cols-[1.2fr,1fr]">
+            <div class="rounded-3xl border border-slate-200 bg-white/80 p-8 shadow-sm backdrop-blur md:p-12">
+                <p class="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Laravel 12 + Tailwind</p>
+                <h1 class="mt-4 text-3xl font-semibold leading-tight text-slate-900 md:text-5xl">Minimal, tenang, dan fokus untuk manajemen user.</h1>
+                <p class="mt-4 max-w-xl text-sm text-slate-600 md:text-base">
+                    Starter panel ini dirancang dengan pola antarmuka ringan ala desktop modern. Semua alur utama sudah siap:
+                    autentikasi, role, permission, logs, dan pengaturan sistem.
+                </p>
+                <div class="mt-8 flex flex-wrap gap-3">
+                    @guest
+                        <a href="{{ route('login.form') }}" class="mac-btn-primary">Masuk</a>
+                        <a href="{{ route('register.form') }}" class="mac-btn">Daftar</a>
+                    @else
+                        <a href="{{ route('dashboard') }}" class="mac-btn-primary">Ke Dashboard</a>
+                        <form action="{{ route('logout') }}" method="POST">
                             @csrf
+                            <button type="submit" class="mac-btn">Logout</button>
                         </form>
-                    </div>
-                </li>
-            @endguest
-        </ul>
-    </div>
-</body>
+                    @endguest
+                </div>
+            </div>
 
-</html>
+            <div class="rounded-3xl border border-slate-200 bg-gradient-to-b from-slate-900 to-slate-700 p-8 text-white shadow-sm md:p-10">
+                <p class="text-xs uppercase tracking-[0.2em] text-slate-300">Base Kit</p>
+                <ul class="mt-6 space-y-4 text-sm text-slate-200">
+                    <li class="rounded-xl bg-white/10 p-3">Role dan permission berbasis Gate.</li>
+                    <li class="rounded-xl bg-white/10 p-3">Audit log aktivitas pengguna.</li>
+                    <li class="rounded-xl bg-white/10 p-3">Setting aplikasi dan identitas brand.</li>
+                </ul>
+                <p class="mt-6 text-xs text-slate-300">{{ now()->format('Y') }} {{ get_setting('app_name', config('app.name')) }}</p>
+            </div>
+        </section>
+    </main>
+@endsection

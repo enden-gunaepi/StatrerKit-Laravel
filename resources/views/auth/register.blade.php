@@ -1,206 +1,84 @@
 @extends('layouts.master-without-nav')
-@section('title')
-    @lang('translation.signup')
-@endsection
+
+@section('title', 'Sign Up')
+
 @section('content')
-    <section
-        class="auth-page-wrapper py-5 position-relative bg-light d-flex align-items-center justify-content-center min-vh-100">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-11">
-                    <div class="card mb-0">
-                        <div class="card-body">
-                            <div class="row g-0 align-items-center">
-                                <div class="col-xxl-6 mx-auto">
-                                    <div class="card mb-0 border-0">
-                                        <div class="card-body p-sm-5 m-lg-4">
-                                            <div class="text-center mt-2">
-                                                <h5 class="fs-3xl">Get Started</h5>
-                                                <p class="text-muted">Get your free {{ config('app.name') }} account now</p>
-                                            </div>
-                                            <div class="p-2 mt-5">
-                                                <form class="needs-validation" novalidate method="POST"
-                                                    action="{{ route('register') }}" enctype="multipart/form-data" id="registerForm">
-                                                    @csrf
-                                                    <div class="mb-3">
-                                                        <div class="input-group">
-                                                            <span class="input-group-text" id="basic-addon"><i
-                                                                    class="ri-user-3-line"></i></span>
-                                                            <input type="text"
-                                                                class="form-control  @error('name') is-invalid @enderror"
-                                                                name="name" value="{{ old('name') }}" id="username"
-                                                                placeholder="Enter username">
-                                                            @error('name')
-                                                                <span class="invalid-feedback" role="alert">
-                                                                    <strong>{{ $message }}</strong>
-                                                                </span>
-                                                            @enderror
-                                                        </div>
-                                                    </div>
+    <main class="mx-auto flex min-h-[calc(100vh-2rem)] w-full max-w-6xl items-center px-4 pb-12 pt-6 md:px-8">
+        <section class="w-full overflow-hidden rounded-[28px] border border-slate-300 bg-white shadow-[0_20px_60px_rgba(2,6,23,0.18)]">
+            <div class="grid min-h-[620px] md:grid-cols-[0.92fr_1.08fr]">
+                <aside class="relative overflow-hidden bg-black p-8 text-white md:p-10">
+                    <div class="absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,#2a2a2a_0%,#0b0b0b_45%,#000_100%)]"></div>
+                    <div class="absolute -left-10 top-14 h-56 w-56 rounded-full bg-white/10 blur-3xl"></div>
+                    <div class="absolute -bottom-16 right-0 h-64 w-64 rounded-full bg-slate-500/20 blur-3xl"></div>
 
-                                                    <div class="mb-3">
-                                                        <div class="input-group">
-                                                            <span class="input-group-text" id="basic-addon"><i
-                                                                    class="ri-mail-line"></i></span>
-                                                            <input type="email"
-                                                                class="form-control @error('email') is-invalid @enderror"
-                                                                id="useremail" name="email" value="{{ old('email') }}"
-                                                                placeholder="Enter email address" required>
-                                                            @error('email')
-                                                                <span class="invalid-feedback" role="alert">
-                                                                    <strong>{{ $message }}</strong>
-                                                                </span>
-                                                            @enderror
-                                                        </div>
-                                                        <div class="invalid-feedback">
-                                                            Please enter email
-                                                        </div>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <div class="position-relative auth-pass-inputgroup overflow-hidden">
-                                                            <div class="input-group">
-                                                                <span class="input-group-text" id="basic-addon1"><i
-                                                                        class="ri-lock-2-line"></i></span>
-                                                                <input type="password"
-                                                                    class="form-control pe-5 password-input @error('password') is-invalid @enderror"
-                                                                    name="password" placeholder="Enter password"
-                                                                    id="password-input">
-                                                                @error('password')
-                                                                    <span class="invalid-feedback" role="alert">
-                                                                        <strong>{{ $message }}</strong>
-                                                                    </span>
-                                                                @enderror
-                                                            </div>
-                                                            <button
-                                                                class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon"
-                                                                type="button" id="password-addon"><i
-                                                                    class="ri-eye-fill align-middle"></i></button>
-                                                        </div>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <div class="position-relative auth-pass-inputgroup overflow-hidden">
-                                                            <div class="input-group">
-                                                                <span class="input-group-text" id="basic-addon2"><i
-                                                                        class="ri-lock-2-line"></i></span>
-                                                                <input type="password"
-                                                                    class="form-control pe-5 password-input @error('password_confirmation') is-invalid @enderror"
-                                                                    name="password_confirmation" 
-                                                                    placeholder="Enter confirm password" id="confirm-password-input">
-                                                                {{-- @error('password_confirmation') --}}
-                                                                @error('password_confirmation')
-                                                                    <span class="invalid-feedback" role="alert">
-                                                                        <strong>{{ $message }}</strong>
-                                                                    </span>
-                                                                @enderror
-                                                            </div>
-                                                            <!-- <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="passwordMatchError"><i class="ri-eye-fill align-middle"></i></button> -->
-                                                            <button
-                                                                class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon"
-                                                                type="button" id="password-addon2"><i
-                                                                    class="ri-eye-fill align-middle"></i></button>
-                                                        </div>
-                                                    </div>
+                    <div class="relative z-10 flex h-full flex-col justify-between">
+                        <span class="inline-flex w-fit rounded-full border border-white/30 px-3 py-1 text-xs tracking-[0.16em] text-white/80">CREATE</span>
 
-                                                    <div class="mb-4">
-                                                        <p class="mb-0 fs-sm text-muted fst-italic">By registering you agree
-                                                            to the {{ config('app.name') }} <a href="pages-term-conditions"
-                                                                class="text-primary text-decoration-underline fst-normal fw-medium">Terms
-                                                                of Use</a></p>
-                                                    </div>
-
-                                                    <div id="password-contain" class="p-3 bg-light mb-2 rounded">
-                                                        <h5 class="fs-md">Password must contain:</h5>
-                                                        <p id="pass-length" class="invalid fs-sm mb-2">Minimum <b>8
-                                                                characters</b></p>
-                                                        <p id="pass-lower" class="invalid fs-sm mb-2">At <b>lowercase</b>
-                                                            letter (a-z)</p>
-                                                        <p id="pass-upper" class="invalid fs-sm mb-2">At least
-                                                            <b>uppercase</b> letter (A-Z)
-                                                        </p>
-                                                        <p id="pass-number" class="invalid fs-sm mb-0">A least <b>number</b>
-                                                            (0-9)</p>
-                                                    </div>
-
-                                                    <div class="mt-4">
-                                                        <button class="btn btn-primary w-100" type="submit"
-                                                            id="submitBtn">Register</button>
-                                                    </div>
-
-                                                    <div class="mt-4 text-center">
-                                                        <div class="signin-other-title position-relative">
-                                                            <h5 class="fs-sm mb-4 title text-muted">Create account with
-                                                            </h5>
-                                                        </div>
-
-                                                        <div>
-                                                            <button type="button"
-                                                                class="btn btn-subtle-primary btn-icon "><i
-                                                                    class="ri-facebook-fill fs-lg"></i></button>
-                                                            <button type="button"
-                                                                class="btn btn-subtle-danger btn-icon "><i
-                                                                    class="ri-google-fill fs-lg"></i></button>
-                                                            <button type="button"
-                                                                class="btn btn-subtle-dark btn-icon "><i
-                                                                    class="ri-github-fill fs-lg"></i></button>
-                                                            <button type="button"
-                                                                class="btn btn-subtle-info btn-icon "><i
-                                                                    class="ri-twitter-fill fs-lg"></i></button>
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                            <div class="mt-4 text-center">
-                                                <p class="mb-1">Already have an account ? </p>
-                                                <a href="login" class="text-secondary text-decoration-underline"> Login
-                                                    here </a>
-                                            </div>
-                                        </div><!-- end card body -->
-                                    </div><!-- end card -->
-                                </div>
-                                <!--end col-->
-                                <div class="col-xxl-5">
-                                    <div
-                                        class="card auth-card bg-secondary h-100 border-0 shadow-none d-none d-sm-block mb-0">
-                                        <div class="card-body py-5 d-flex justify-content-between flex-column h-100">
-                                            <div class="text-center">
-                                                <h5 class="text-white">Welcome to your {{ config('app.name') }}.</h5>
-                                                <p class="text-white opacity-75">It brings together your tasks, projects,
-                                                    timelines, files and more</p>
-                                            </div>
-
-                                            <div
-                                                class="auth-effect-main my-5 position-relative rounded-circle d-flex align-items-center justify-content-center mx-auto">
-                                                <div class="auth-user-list list-unstyled">
-                                                    <img src="build/images/auth/signin.png" alt=""
-                                                        class="img-fluid">
-                                                </div>
-                                            </div>
-
-                                            <div class="text-center">
-                                                <p class="text-white opacity-75 mb-0 mt-3">
-                                                    &copy;
-                                                    <script>
-                                                        document.write(new Date().getFullYear())
-                                                    </script> {{ config('app.name') }}. Made with <i
-                                                        class="ti ti-heart-filled text-danger"></i> by 1112-Project
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--end col-->
-                            </div>
-                            <!--end row-->
+                        <div>
+                            <h2 class="max-w-xs text-4xl font-semibold leading-tight">Create your account</h2>
+                            <p class="mt-3 max-w-xs text-base text-white/70">Start collaborating with a clean and secure workspace.</p>
                         </div>
+
+                        <p class="text-xs text-white/50">Elegant Black & White UI</p>
+                    </div>
+                </aside>
+
+                <div class="flex items-center justify-center bg-white px-6 py-10 md:px-10">
+                    <div class="w-full max-w-md">
+                        <h1 class="text-center text-4xl font-semibold tracking-tight text-black">Sign Up</h1>
+                        <p class="mt-2 text-center text-sm text-slate-500">Create your account in seconds</p>
+
+                        <form method="POST" action="{{ route('register') }}" class="mt-8 space-y-4">
+                            @csrf
+                            <div>
+                                <input id="name" name="name" type="text" value="{{ old('name') }}" class="h-11 w-full rounded-lg border border-slate-200 px-3 text-sm text-slate-900 outline-none transition focus:border-black @error('name') border-rose-300 @enderror" placeholder="Full name" required>
+                                @error('name')
+                                    <p class="mt-1 text-xs text-rose-600">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <div>
+                                <input id="email" name="email" type="email" value="{{ old('email') }}" class="h-11 w-full rounded-lg border border-slate-200 px-3 text-sm text-slate-900 outline-none transition focus:border-black @error('email') border-rose-300 @enderror" placeholder="Email address" required>
+                                @error('email')
+                                    <p class="mt-1 text-xs text-rose-600">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <div>
+                                <input id="password" name="password" type="password" class="h-11 w-full rounded-lg border border-slate-200 px-3 text-sm text-slate-900 outline-none transition focus:border-black @error('password') border-rose-300 @enderror" placeholder="Password" required>
+                                @error('password')
+                                    <p class="mt-1 text-xs text-rose-600">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <div>
+                                <input id="password_confirmation" name="password_confirmation" type="password" class="h-11 w-full rounded-lg border border-slate-200 px-3 text-sm text-slate-900 outline-none transition focus:border-black" placeholder="Confirm password" required>
+                            </div>
+
+                            <label class="flex items-start gap-2 text-xs text-slate-500">
+                                <input type="checkbox" class="mt-0.5 rounded border-slate-300" required>
+                                <span>I agree to terms and conditions.</span>
+                            </label>
+
+                            <button type="submit" class="h-11 w-full rounded-lg bg-black text-sm font-medium text-white transition hover:bg-slate-800">
+                                Join now
+                            </button>
+                        </form>
+
+                        <div class="my-6 h-px bg-slate-200"></div>
+
+                        <div class="space-y-3">
+                            <button type="button" class="h-10 w-full rounded-lg border border-slate-200 bg-white text-sm font-medium text-slate-700 transition hover:border-slate-300">Sign up with Google</button>
+                            <button type="button" class="h-10 w-full rounded-lg border border-black bg-black text-sm font-medium text-white transition hover:bg-slate-800">Sign up with Apple</button>
+                        </div>
+
+                        <p class="mt-6 text-center text-sm text-slate-500">
+                            Already have an account?
+                            <a href="{{ route('login.form') }}" class="font-medium text-black underline">Sign in</a>
+                        </p>
                     </div>
                 </div>
-                <!--end col-->
             </div>
-            <!--end row-->
-        </div>
-        <!--end container-->
-    </section>
-@endsection
-@section('script')
-    <script src="{{ URL::asset('build/js/pages/passowrd-create.init.js') }}"></script>
+        </section>
+    </main>
 @endsection

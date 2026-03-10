@@ -1,12 +1,214 @@
 @import 'tailwindcss';
+@config '../../tailwind.config.js';
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
-@source "../**/*.blade.php";
-@source "../**/*.js";
-@source "../**/*.vue";
+@source '../**/*.blade.php';
+@source '../**/*.js';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans: 'SF Pro Display', 'SF Pro Text', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+}
+
+@layer base {
+    :root {
+        --surface-1: #d8dbe5;
+        --surface-2: #ffffff;
+        --line-soft: #dfe3ec;
+        --text-main: #0f172a;
+        --text-muted: #64748b;
+        --accent: #0f172a;
+        --accent-soft: #334155;
+    }
+
+    body {
+        @apply bg-[var(--surface-1)] text-[var(--text-main)] antialiased;
+    }
+}
+
+@layer components {
+    .glass-card {
+        @apply rounded-2xl border border-[var(--line-soft)] bg-white/85 shadow-sm backdrop-blur;
+    }
+
+    .neo-shell {
+        @apply mx-auto max-w-[1500px] rounded-[30px] border border-slate-300/60 bg-[#edf0f6] p-3 shadow-[0_10px_35px_rgba(15,23,42,0.08)] md:p-5;
+    }
+
+    .neo-inner {
+        @apply rounded-[26px] border border-slate-200 bg-[#f7f8fb] p-3 md:p-5;
+    }
+
+    .neo-panel {
+        @apply rounded-[22px] border border-slate-200 bg-white p-4 shadow-sm;
+    }
+
+    .icon-rail-btn {
+        @apply flex h-11 w-11 items-center justify-center rounded-full border text-slate-500 transition;
+    }
+
+    .icon-rail-btn-active {
+        @apply border-black bg-black text-white;
+    }
+
+    .icon-rail-btn-idle {
+        @apply border-slate-300 bg-white hover:border-slate-400 hover:text-slate-700;
+    }
+
+    .teacher-row {
+        @apply grid items-center gap-2 rounded-2xl px-3 py-2.5 text-sm md:grid-cols-[1.4fr,1fr,1fr,40px];
+    }
+
+    .teacher-row-muted {
+        @apply bg-slate-100;
+    }
+
+    .course-item {
+        @apply flex items-start justify-between gap-2 rounded-xl px-3 py-2.5 hover:bg-slate-100;
+    }
+
+    .progress-ring {
+        background: conic-gradient(#0f172a 0 252deg, #d8dce5 252deg 360deg);
+        @apply relative mx-auto grid h-36 w-36 place-items-center rounded-full;
+    }
+
+    .progress-ring::after {
+        content: "";
+        @apply absolute h-24 w-24 rounded-full bg-[#f7f8fb];
+    }
+
+    .progress-ring > span {
+        @apply relative z-10 text-3xl font-semibold text-slate-900;
+    }
+
+    .mac-btn {
+        @apply inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-50;
+    }
+
+    .mac-btn-primary {
+        @apply inline-flex items-center justify-center rounded-xl bg-slate-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-700;
+    }
+
+    .mac-input {
+        @apply w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-slate-400;
+    }
+
+    .mac-label {
+        @apply mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-500;
+    }
+
+    .mac-table-wrap {
+        @apply overflow-x-auto rounded-2xl border border-slate-200 bg-white;
+    }
+
+    .mac-table {
+        @apply min-w-full divide-y divide-slate-200 text-sm;
+    }
+
+    .mac-table thead {
+        @apply bg-slate-50;
+    }
+
+    .mac-table th {
+        @apply px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500;
+    }
+
+    .mac-table td {
+        @apply px-4 py-3 text-slate-700;
+    }
+
+    .mac-table tbody tr {
+        @apply border-b border-slate-100;
+    }
+
+    .mac-table tbody tr:last-child {
+        @apply border-b-0;
+    }
+
+    .status-pill {
+        @apply inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium;
+    }
+
+    .app-layout {
+        display: flex;
+        gap: 0.9rem;
+        min-height: calc(100vh - 1.5rem);
+    }
+
+    .sidebar-rail {
+        width: 76px;
+        border-radius: 20px;
+        border: 1px solid #d8dee9;
+        background: #edf1f7;
+        padding: 14px 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .sidebar-rail-top {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .content-shell {
+        flex: 1 1 auto;
+        border-radius: 20px;
+        border: 1px solid #e2e8f0;
+        background: rgba(255, 255, 255, 0.72);
+        padding: 14px;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+    }
+
+    .app-navbar {
+        border-radius: 16px;
+        border: 1px solid #e2e8f0;
+        background: #fff;
+        padding: 12px 14px;
+    }
+
+    .app-main {
+        flex: 1 1 auto;
+        margin-top: 12px;
+    }
+
+    .app-footer {
+        margin-top: 12px;
+        border-top: 1px solid #e2e8f0;
+        padding-top: 10px;
+        font-size: 12px;
+        color: #64748b;
+    }
+
+    .mobile-nav {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 60;
+    }
+
+    .mobile-nav.is-open {
+        display: block;
+    }
+
+    @media (max-width: 1023px) {
+        .app-layout {
+            min-height: auto;
+        }
+
+        .sidebar-rail {
+            display: none;
+        }
+
+        .content-shell {
+            padding: 10px;
+        }
+
+        .app-navbar {
+            padding: 10px;
+        }
+    }
 }
